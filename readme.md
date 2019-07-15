@@ -1,5 +1,7 @@
 # auditLog POC
 
+![](./Document/flow.png)
+
 | project         | desc                                        |
 | --------------- | ------------------------------------------- |
 | AuditLogPOC.API | 提供 AuditLogPOC.Web 網站服務，操作相關資料 |
