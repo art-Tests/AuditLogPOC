@@ -166,10 +166,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\APIResult.cs" />
     <Compile Include="Models\AuditLog.cs" />
+    <Compile Include="Models\AuditLogResponse.cs" />
+    <Compile Include="Models\AuditLogRequest.cs" />
+    <Compile Include="Models\ContractForm.cs" />
     <Compile Include="Models\CustomerForm.cs" />
     <Compile Include="Models\ElasticSearchQueryResponse.cs" />
+    <Compile Include="Models\ModifyLog.cs" />
     <Compile Include="Models\QueryCondition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿window.eventBus = new Vue({});
 
-const refId = 28007357;
-const logType = "customer";
+const refId = 100270010
+const logType = "contract"
 
 const app = new Vue({
   el: "#app",
@@ -9,20 +9,23 @@ const app = new Vue({
     emptyForm: {
       refId: refId,
       logType: logType,
-      phone: null,
+      beginDate: null,
+      endDate:null,
       name: null
     },
     defaultForm: {
-      refId: refId,
-      logType: logType,
-      phone: "0912-345-678",
-      name: "王小明"
+        refId: refId,
+        logType: logType,
+        beginDate: "2018-08-01",
+        endDate:"2020-07-31",
+        name: "內湖王陽明"
     },
     form: {
-      refId: null,
-      logType: null,
-      phone: null,
-      name: null
+        refId: refId,
+        logType: logType,
+        beginDate: null,
+        endDate:null,
+        name: null
     }
   },
   mounted() {
@@ -60,10 +63,10 @@ const app = new Vue({
         newForm: JSON.stringify({ ...vm.form }),
         oldForm: JSON.stringify({ ...vm.defaultForm })
       };
-
+      
       $.ajax({
         url: `http://localhost:54117/API/AuditLog`,
-        data: sendData,
+        data: sendData, 
         type: "POST"
       }).done(function(res) {
         if (res === "OK") {

@@ -1,0 +1,84 @@
+﻿<h2>合約資料異動模擬</h2>
+<div id="app">
+    <div>
+        模擬 DB 資料:{{ defaultForm }}
+        <button @@click.prevent="deleteLog">清除所有異動紀錄</button>
+    </div>
+    <hr />
+    <form>
+        <label for="name">負責人</label>
+        <input type="text" v-model="form.name" />
+
+        <label for="phone">合約日期起</label>
+        <input type="text" v-model="form.beginDate" />
+
+        <label for="phone">合約日期迄</label>
+        <input type="text" v-model="form.endDate" />
+
+        <button @@click.prevent="createLog">修改</button>
+    </form>
+
+</div>
+
+
+<div id="log">
+    <div>
+        <paging-info :start="pagingStart"
+                     :end="pagingEnd"
+                     :total="pagingTotal"
+                     :max-page="maxPage"
+                     :now-page="nowPage"></paging-info>
+    </div>
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th>#</th>
+                <!-- <th>紀錄編號</th> -->
+                <th>異動日期</th>
+                <th>部門名稱</th>
+                <th>異動人員</th>
+                <th>每頁筆數<select v-model="form.pageSize"><option value="5">5</option><option value="10">10</option></select></th>
+            </tr>
+        </thead>
+        <tbody v-cloak>
+            <tr v-if="noRecords">
+                <td colspan=5> No Data </td>
+            </tr>
+            <tr v-else v-for="(record,index) in filterRecords">
+                <td>{{ recordNumber(index+1) }}</td>
+                <!-- <td>{{ record.Id }}</td> -->
+                <td>{{ record.ModifiedDate }}</td>
+                <td>{{ record.DeptName }}</td>
+                <td>{{ record.ModifiedByName }}</td>
+                <td colspan=2>
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>異動欄位</th>
+                                <th>異動前內容</th>
+                                <th>異動後內容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(content,index) in record.Content">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ content.field }}</td>
+                                <td>{{ content.valueBefore }}</td>
+                                <td>{{ content.valueAfter }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+@section scripts
+{
+    <script src="~/Scripts/Common/Component.js"></script>
+    <script src="~/Scripts/Page/Contract/Index.js"></script>
+}

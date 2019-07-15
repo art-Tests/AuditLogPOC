@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -16,7 +17,7 @@ namespace AuditLogPOC.API.Controllers
     {
         private const string ElasticSearchWebHost = "http://172.21.3.75:9200";
 
-        public AuditLog Get([FromUri] string logType, int size = 10, int page = 1)
+        public AuditLogResponse Get([FromUri] string logType, int size = 10, int page = 1)
         {
             var condition = new QueryCondition(logType, size, page);
             var esDataStr = GetElasticSearchData(condition);
@@ -25,9 +26,9 @@ namespace AuditLogPOC.API.Controllers
             return result;
         }
 
-        public async Task<string> Post([FromBody]CustomerAuditLogForm form)
+        public async Task<string> Post([FromBody]AuditLogRequest request)
         {
-            var logData = GetCustomerForm(form);
+            var logData = GetForm(request);
             var sendData = JsonConvert.SerializeObject(logData);
             return await CreateAuditLog(sendData);
         }
@@ -36,6 +37,24 @@ namespace AuditLogPOC.API.Controllers
         {
             return await DeleteAuditLog();
         }
+
+        private AuditLog GetForm(AuditLogRequest request)
+        {
+            
+            if (request.LogType.ToLower() == LogType.Customer.GetDescriptionText().ToLower())
+            {
+                return GetCustomerForm(request);
+            }
+
+            if (request.LogType.ToLower() == LogType.Contract.GetDescriptionText().ToLower())
+            {
+                return GetContractForm(request);
+
+            }
+            throw new Exception("logType error");
+        }
+
+ 
 
         private string GetElasticSearchData(QueryCondition queryCondition)
         {
@@ -58,24 +77,58 @@ namespace AuditLogPOC.API.Controllers
             return $"?q=logType:{queryCondition.LogType}&size={queryCondition.Size}&from={from}&sort=modifiedDate:desc";
         }
 
-        private Models.AuditLog GetCustomerForm(CustomerAuditLogForm form)
+        private Models.AuditLog GetContractForm(AuditLogRequest request)
         {
-            var contents = new List<FieldModifyLog>();
+            var contents = new List<EsFieldModifyLog>();
 
-            if (!string.Equals(form.OldForm.Name, form.NewForm.Name))
+            var oldForm = JsonConvert.DeserializeObject<ContractForm>(request.OldForm);
+            var newForm = JsonConvert.DeserializeObject<ContractForm>(request.NewForm);
+
+            if (!string.Equals(oldForm.Name, newForm.Name))
             {
-                contents.Add(new FieldModifyLog { field = "Name", valueAfter = form.NewForm.Name, valueBefore = form.OldForm.Name });
+                contents.Add(new EsFieldModifyLog { field = "Name", valueAfter = newForm.Name, valueBefore = oldForm.Name });
+            }
+            if (!string.Equals(oldForm.BeginDate, newForm.BeginDate))
+            {
+                contents.Add(new EsFieldModifyLog { field = "BeginDate", valueAfter = newForm.BeginDate, valueBefore = oldForm.BeginDate });
+            }
+            if (!string.Equals(oldForm.EndDate, newForm.EndDate))
+            {
+                contents.Add(new EsFieldModifyLog { field = "EndDate", valueAfter = newForm.EndDate, valueBefore =oldForm.EndDate });
             }
 
-            if (!string.Equals(form.OldForm.Phone, form.NewForm.Phone))
+            return AuditLogWithContent(request.RefId,request.LogType,contents);
+        }
+
+
+        private Models.AuditLog GetCustomerForm(AuditLogRequest request)
+        {
+            var contents = new List<EsFieldModifyLog>();
+
+            var oldForm = JsonConvert.DeserializeObject<CustomerForm>(request.OldForm);
+            var newForm = JsonConvert.DeserializeObject<CustomerForm>(request.NewForm);
+
+            if (!string.Equals(oldForm.Name, newForm.Name))
             {
-                contents.Add(new FieldModifyLog { field = "Phone", valueAfter = form.NewForm.Phone, valueBefore = form.OldForm.Phone });
+                contents.Add(new EsFieldModifyLog { field = "Name", valueAfter = newForm.Name, valueBefore = oldForm.Name });
             }
 
+            if (!string.Equals(oldForm.Phone, newForm.Phone))
+            {
+                contents.Add(new EsFieldModifyLog { field = "Phone", valueAfter = newForm.Phone, valueBefore = oldForm.Phone });
+            }
+
+            return AuditLogWithContent(request.RefId, request.LogType, contents);
+        }
+
+       
+
+        private Models.AuditLog AuditLogWithContent(int refId, string logType, List<EsFieldModifyLog> contents)
+        {
             return new Models.AuditLog
             {
-                refId = 28007357,
-                logType = "customer",
+                refId = refId,
+                logType = logType,
                 modifiedBy = 382388,
                 deptName = "OB部門",
                 modifiedByName = "OB管理者",
@@ -119,14 +172,14 @@ namespace AuditLogPOC.API.Controllers
             }
         }
 
-        private AuditLog ConvertOutput(ElasticSearchQueryResponse esData)
+        private AuditLogResponse ConvertOutput(ElasticSearchQueryResponse esData)
         {
-            if (esData.hits == null) return new AuditLog() {TotalCount = 0};
+            if (esData.hits == null) return new AuditLogResponse() {TotalCount = 0};
 
-            var result = new AuditLog()
+            var result = new AuditLogResponse()
             {
                 TotalCount = esData.hits.total.value,
-                Logs = esData.hits.hits.Select(x => new CustomerModifyLog()
+                Logs = esData.hits.hits.Select(x => new FormModifyLog()
                 {
                     Id = x._id,
                     DeptName = x._source.deptName,
@@ -140,60 +193,5 @@ namespace AuditLogPOC.API.Controllers
         }
     }
 
-    public interface IDepartmentModule
-    {
-        /// <summary>
-        /// 取得部門關係Dictionary
-        /// </summary>
-        /// <returns>內含整理後的部門階層關係的Dictionary物件</returns>
-        IDictionary<int, DepartmentRelationship> GetDepartments();
-    }
-
-    /// <summary>
-    /// 部門階層關係
-    /// </summary>
-    [Serializable]
-    public class DepartmentRelationship
-    {
-        /// <summary>
-        /// 部門代碼
-        /// </summary>
-        public int DepartmentId { get; set; }
-
-        /// <summary>
-        /// 部門名稱
-        /// </summary>
-        public string DeptName { get; set; }
-
-        /// <summary>
-        /// 上層部門代碼
-        /// </summary>
-        public int ParentDept { get; set; }
-
-        /// <summary>
-        /// 階層 (從最上層部門算下來是第幾階層)
-        /// </summary>
-        public int Level { get; set; }
-
-        /// <summary>
-        /// 部門階層關係 (逗號分隔)
-        /// </summary>
-        public string Relationship { get; set; }
-    }
-
-    public class AuditLog
-    {
-        public int TotalCount { get; set; }
-        public IEnumerable<CustomerModifyLog> Logs { get; set; }
-    }
-
-    public class CustomerModifyLog
-    {
-        public string Id { get; set; }
-        public string DeptName { get; set; }
-        public string ModifiedByName { get; set; }
-        public int ModifiedBy { get; set; }
-        public string ModifiedDate { get; set; }
-        public IEnumerable<FieldModifyLog> Content { get; set; }
-    }
+  
 }

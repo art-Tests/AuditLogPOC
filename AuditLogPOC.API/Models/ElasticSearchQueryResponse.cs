@@ -35,10 +35,10 @@
         public string _type { get; set; }
         public string _id { get; set; }
         public float? _score { get; set; }
-        public ModifyLog _source { get; set; }
+        public EsModifyLog _source { get; set; }
     }
 
-    public class ModifyLog
+    public class EsModifyLog
     {
         public int refId { get; set; }
         public string logType { get; set; }
@@ -46,10 +46,10 @@
         public string modifiedByName { get; set; }
         public string modifiedDate { get; set; }
         public string deptName { get; set; }
-        public FieldModifyLog[] content { get; set; }
+        public EsFieldModifyLog[] content { get; set; }
     }
 
-    public class FieldModifyLog
+    public class EsFieldModifyLog
     {
         public string field { get; set; }
         public string valueBefore { get; set; }

@@ -6,7 +6,7 @@
         public string logType { get; set; }
         public int modifiedBy { get; set; }
         public string modifiedDate { get; set; }
-        public FieldModifyLog[] content { get; set; }
+        public EsFieldModifyLog[] content { get; set; }
         public string deptName { get; set; }
         public string modifiedByName { get; set; }
     }
