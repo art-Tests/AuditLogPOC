@@ -77,8 +77,8 @@ const app = new Vue({
     },
     deleteLog() {
       $.ajax({
-        url: `http://localhost:54117/API/AuditLog`,
-        type: "DELETE"
+        url: `http://localhost:54117/API/Reset?logType=${logType}`,
+        type: "POST"
       }).done(function(res) {
         if (res === "OK") {
           alert("clear ok");

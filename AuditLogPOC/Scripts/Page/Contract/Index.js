@@ -63,7 +63,7 @@ const app = new Vue({
         newForm: JSON.stringify({ ...vm.form }),
         oldForm: JSON.stringify({ ...vm.defaultForm })
       };
-      
+
       $.ajax({
         url: `http://localhost:54117/API/AuditLog`,
         data: sendData, 
@@ -79,16 +79,16 @@ const app = new Vue({
       });
     },
     deleteLog() {
-      $.ajax({
-        url: `http://localhost:54117/API/AuditLog`,
-        type: "DELETE"
-      }).done(function(res) {
-        if (res === "OK") {
-          alert("clear ok");
-          window.eventBus.$emit("getLogs", 1);
-        }
-      });
-    }
+        $.ajax({
+          url: `http://localhost:54117/API/Reset?logType=${logType}`,
+          type: "POST"
+        }).done(function(res) {
+          if (res === "OK") {
+            alert("clear ok");
+            window.eventBus.$emit("getLogs", 1);
+          }
+        });
+      }
   }
 });
 

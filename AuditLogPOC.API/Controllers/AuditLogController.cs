@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -32,21 +33,19 @@ namespace AuditLogPOC.API.Controllers
             var sendData = JsonConvert.SerializeObject(logData);
             return await CreateAuditLog(sendData);
         }
+  
 
-        public async Task<string> Delete()
-        {
-            return await DeleteAuditLog();
-        }
 
+  
         private AuditLog GetForm(AuditLogRequest request)
         {
-            
-            if (request.LogType.ToLower() == LogType.Customer.GetDescriptionText().ToLower())
+            var logType = request.LogType.ToLower();
+            if (logType == LogType.Customer.GetDescriptionText().ToLower())
             {
                 return GetCustomerForm(request);
             }
 
-            if (request.LogType.ToLower() == LogType.Contract.GetDescriptionText().ToLower())
+            if (logType == LogType.Contract.GetDescriptionText().ToLower())
             {
                 return GetContractForm(request);
 
@@ -132,7 +131,7 @@ namespace AuditLogPOC.API.Controllers
                 modifiedBy = 382388,
                 deptName = "OB部門",
                 modifiedByName = "OB管理者",
-                modifiedDate = DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss"),
+                modifiedDate = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"),
                 content = contents.ToArray()
             };
         }
@@ -155,22 +154,6 @@ namespace AuditLogPOC.API.Controllers
             }
         }
 
-        private async Task<string> DeleteAuditLog()
-        {
-            try
-            {
-                var requestUri = $"{ElasticSearchWebHost}/fugo";
-                using (var client = new HttpClient())
-                {
-                    await client.DeleteAsync(requestUri);
-                }
-                return "OK";
-            }
-            catch (Exception e)
-            {
-                return "FAIL";
-            }
-        }
 
         private AuditLogResponse ConvertOutput(ElasticSearchQueryResponse esData)
         {
