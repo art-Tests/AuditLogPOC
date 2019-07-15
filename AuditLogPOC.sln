@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditLogPOC.Web", "AuditLogPOC\AuditLogPOC.Web.csproj", "{BC74552C-A8EC-4001-B296-B2C06E2E9CE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditLogPOC.API", "AuditLogPOC.API\AuditLogPOC.API.csproj", "{FA5A25BC-CB19-4DD7-B41F-E739DFE24D9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC74552C-A8EC-4001-B296-B2C06E2E9CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC74552C-A8EC-4001-B296-B2C06E2E9CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC74552C-A8EC-4001-B296-B2C06E2E9CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC74552C-A8EC-4001-B296-B2C06E2E9CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA5A25BC-CB19-4DD7-B41F-E739DFE24D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA5A25BC-CB19-4DD7-B41F-E739DFE24D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA5A25BC-CB19-4DD7-B41F-E739DFE24D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA5A25BC-CB19-4DD7-B41F-E739DFE24D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DAB6BE4E-8333-4BA4-9663-4CF8FB3A2A99}
+	EndGlobalSection
+EndGlobal
