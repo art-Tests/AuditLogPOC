@@ -1,4 +1,4 @@
-﻿namespace AuditLogPOC.API.Models
+﻿namespace AuditLogPOC.API.Models.DTO
 {
     public class AuditLog
     {

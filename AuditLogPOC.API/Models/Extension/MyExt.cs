@@ -1,25 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
+using AuditLogPOC.API.Models.Enum;
 
-namespace AuditLogPOC.API.Models
+namespace AuditLogPOC.API.Models.Extension
 {
-    public class AuditLogRequest
-    {
-        public int RefId { get; set; }
-        public string LogType { get; set; }
-        public string NewForm { get; set; }
-        public string OldForm { get; set; }
-    }
-
-    public enum LogType
-    {
-        [Description("Customer")]
-        Customer,
-        [Description("Contract")]
-        Contract
-    }
-
     public static class MyExt
     {
         public static string GetDescriptionText(this LogType source)

@@ -167,14 +167,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AuditLog.cs" />
-    <Compile Include="Models\AuditLogResponse.cs" />
-    <Compile Include="Models\AuditLogRequest.cs" />
-    <Compile Include="Models\ContractForm.cs" />
-    <Compile Include="Models\CustomerForm.cs" />
-    <Compile Include="Models\ElasticSearchQueryResponse.cs" />
-    <Compile Include="Models\ModifyLog.cs" />
-    <Compile Include="Models\QueryCondition.cs" />
+    <Compile Include="Models\DTO\AuditLog.cs" />
+    <Compile Include="Models\DTO\AuditLogCreateRequest.cs" />
+    <Compile Include="Models\DTO\AuditLogResponse.cs" />
+    <Compile Include="Models\DTO\ContractForm.cs" />
+    <Compile Include="Models\DTO\CustomerForm.cs" />
+    <Compile Include="Models\DTO\ElasticSearchQueryResponse.cs" />
+    <Compile Include="Models\DTO\FormModifyLog.cs" />
+    <Compile Include="Models\DTO\AuditLogQueryRequest.cs" />
+    <Compile Include="Models\Enum\LogType.cs" />
+    <Compile Include="Models\Extension\MyExt.cs" />
+    <Compile Include="Models\Service\AuditLogService.cs" />
+    <Compile Include="Models\Service\BaseLogService.cs" />
+    <Compile Include="Models\Service\ContractBaseLogService.cs" />
+    <Compile Include="Models\Service\CustomerBaseLogService.cs" />
+    <Compile Include="Models\Service\LogServiceFactory.cs" />
+    <Compile Include="Models\Struct\ElasticSearchConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

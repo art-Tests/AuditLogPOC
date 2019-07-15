@@ -1,4 +1,4 @@
-﻿namespace AuditLogPOC.API.Models
+﻿namespace AuditLogPOC.API.Models.DTO
 {
     public class ElasticSearchQueryResponse
     {
@@ -7,7 +7,6 @@
         public _Shards _shards { get; set; }
         public Hits hits { get; set; }
     }
-
     public class _Shards
     {
         public int total { get; set; }
@@ -15,7 +14,6 @@
         public int skipped { get; set; }
         public int failed { get; set; }
     }
-
     public class Hits
     {
         public Total total { get; set; }
@@ -37,7 +35,6 @@
         public float? _score { get; set; }
         public EsModifyLog _source { get; set; }
     }
-
     public class EsModifyLog
     {
         public int refId { get; set; }

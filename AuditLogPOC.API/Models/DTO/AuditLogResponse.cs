@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AuditLogPOC.API.Models
+namespace AuditLogPOC.API.Models.DTO
 {
     public class AuditLogResponse
     {

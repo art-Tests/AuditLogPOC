@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using AuditLogPOC.API.Models.Struct;
 
 namespace AuditLogPOC.API.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ResetController : ApiController
     {
-        private const string ElasticSearchWebHost = "http://172.21.3.75:9200";
 
         public async Task<string> Post(string logType)
         {
+            
             var sendData = GetDeleteRequestByLogType(logType);
             return await DeleteAuditLog(sendData);
         }
@@ -24,15 +22,14 @@ namespace AuditLogPOC.API.Controllers
         {
             try
             {
-                var requestUri = $"{ElasticSearchWebHost}/fugo/auditlog/_delete_by_query";
                 using (var client = new HttpClient())
                 {
                     var httpContent = new StringContent(sendData, Encoding.UTF8, "application/json");
-                    await client.PostAsync(requestUri, httpContent);
+                    await client.PostAsync(ElasticSearchConfig.AuditLog.DeleteUri, httpContent);
                 }
                 return "OK";
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return "FAIL";
             }
