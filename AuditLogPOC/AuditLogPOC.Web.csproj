@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -141,6 +142,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\Common\Component.js" />
+    <Content Include="Scripts\Page\Common\logTable.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -170,6 +172,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Contract\Index.cshtml" />
+    <Content Include="Views\Common\LogTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

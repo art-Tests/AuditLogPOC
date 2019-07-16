@@ -17,10 +17,7 @@
 
         <button @@click.prevent="createLog">修改</button>
     </form>
-
 </div>
-
-
 <div id="log">
     <div>
         <paging-info :start="pagingStart"
@@ -75,10 +72,10 @@
     </table>
 </div>
 
-
-
 @section scripts
 {
     <script src="~/Scripts/Common/Component.js"></script>
+
     <script src="~/Scripts/Page/Contract/Index.js"></script>
+    <script src="~/Scripts/Page/Common/logTable.js"></script>
 }
