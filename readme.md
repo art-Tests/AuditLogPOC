@@ -9,6 +9,8 @@
 
 ElasticSearch 請另行架設，可透過 ELK-Stack on docker 建立
 
+> 需要先建立Index，並且要注意在設定檔中的url設定都要是小寫的路徑
+
 # Web
 
 模擬會員資料、合約資料的修改，以及異動歷程檢視

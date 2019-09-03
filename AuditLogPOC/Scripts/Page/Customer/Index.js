@@ -9,28 +9,30 @@ const config = {
   }
 };
 
+const initData = {
+  emptyForm: {
+    refId: config.refId,
+    logType: config.logType,
+    phone: null,
+    name: null
+  },
+  defaultForm: {
+    refId: config.refId,
+    logType: config.logType,
+    phone: "0912-345-678",
+    name: "王小明"
+  },
+  form: {
+    refId: null,
+    logType: null,
+    phone: null,
+    name: null
+  }
+};
+
 const app = new Vue({
   el: "#app",
-  data: {
-    emptyForm: {
-      refId: config.refId,
-      logType: config.logType,
-      phone: null,
-      name: null
-    },
-    defaultForm: {
-      refId: config.refId,
-      logType: config.logType,
-      phone: "0912-345-678",
-      name: "王小明"
-    },
-    form: {
-      refId: null,
-      logType: null,
-      phone: null,
-      name: null
-    }
-  },
+  data: initData,
   mounted() {
     this.getDataFromDB();
   },
